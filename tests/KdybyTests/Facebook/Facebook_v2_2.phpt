@@ -275,7 +275,7 @@ class Facebook_v2_2Test extends FacebookTestCase
 	{
 		$facebook = $this->createWithRequest();
 
-		$response = $facebook->api('/' . $this->testUser->id);
+		$response = $facebook->api('/' . $this->testUser->id . '?fields=id,name,first_name,last_name');
 		Assert::true(isset($response['id'])); // User ID should be public.
 		Assert::true(isset($response['name'])); // User's name should be public.
 		Assert::true(isset($response['first_name'])); // User's first name should be public.
