@@ -1,6 +1,8 @@
 Kdyby/Facebook
 ======
 
+**This repository is abandoned. Create an issue if you would like to take over the maintenance.**
+
 [![Build Status](https://travis-ci.org/Kdyby/Facebook.svg?branch=master)](https://travis-ci.org/Kdyby/Facebook)
 [![Downloads this Month](https://img.shields.io/packagist/dm/kdyby/facebook.svg)](https://packagist.org/packages/kdyby/facebook)
 [![Latest stable](https://img.shields.io/packagist/v/kdyby/facebook.svg)](https://packagist.org/packages/kdyby/facebook)
