@@ -1,0 +1,7 @@
+parameters:
+	universalObjectCratesClasses:
+		- Nette\Utils\ArrayHash
+
+includes:
+	- vendor/phpstan/phpstan-nette/rules.neon
+	- vendor/phpstan/phpstan-nette/extension.neon

@@ -411,7 +411,7 @@ class Configuration
 	/**
 	 * Build the URL for api given parameters.
 	 *
-	 * @param $method String the method name.
+	 * @param string $method the method name.
 	 * @return UrlScript The URL for the given parameters
 	 */
 	public function getApiUrl($method)

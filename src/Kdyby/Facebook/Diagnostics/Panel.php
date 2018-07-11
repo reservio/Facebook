@@ -21,10 +21,6 @@ use Tracy\IBarPanel;
 
 /**
  * @author Filip Procházka <filip@prochazka.su>
- *
- * @property callable $begin
- * @property callable $failure
- * @property callable $success
  */
 class Panel implements IBarPanel
 {
@@ -42,7 +38,7 @@ class Panel implements IBarPanel
 	private $calls = [];
 
 	/**
-	 * @var \stdClass
+	 * @var \stdClass|null
 	 */
 	private $current;
 
@@ -78,7 +74,7 @@ class Panel implements IBarPanel
 	public function getPanel()
 	{
 		if (!$this->calls) {
-			return NULL;
+			return '';
 		}
 
 		ob_start();
@@ -167,9 +163,9 @@ class Panel implements IBarPanel
 	 */
 	public function register(CurlClient $client)
 	{
-		$client->onRequest[] = $this->begin;
-		$client->onError[] = $this->failure;
-		$client->onSuccess[] = $this->success;
+		$client->onRequest[] = [$this, 'begin'];
+		$client->onError[] = [$this, 'failure'];
+		$client->onSuccess[] = [$this, 'success'];
 
 		Debugger::getBar()->addPanel($this);
 	}

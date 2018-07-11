@@ -36,7 +36,7 @@ class ResourceIterator implements Iterator
 	private $pageIterator = NULL;
 
 	/**
-	 * @var int
+	 * @var int|null
 	 */
 	private $counter = 0;
 

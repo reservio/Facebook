@@ -18,7 +18,7 @@ use Nette\Utils\ArrayHash;
 /**
  * @author Filip Procházka <filip@prochazka.su>
  *
- * @property ArrayHash $details
+ * @property ArrayHash|null|bool $details
  * @property string $pictureUrl
  * @property array $permissions
  */
@@ -57,7 +57,7 @@ class Profile
 
 
 	/**
-	 * @return string
+	 * @return string|int
 	 */
 	public function getId()
 	{
@@ -81,7 +81,7 @@ class Profile
 				$this->details = $this->facebook->api('/' . $this->profileId);
 
 			} catch (FacebookApiException $e) {
-				$this->details = [];
+				$this->details = new ArrayHash;
 			}
 		}
 

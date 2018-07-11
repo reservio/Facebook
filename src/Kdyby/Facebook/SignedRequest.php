@@ -31,7 +31,7 @@ class SignedRequest
 	 * @param string $signedRequest A signed token
 	 * @param string $appSecret
 	 *
-	 * @return array The payload inside it or null if the sig is wrong
+	 * @return array|null The payload inside it or null if the sig is wrong
 	 */
 	public static function decode($signedRequest, $appSecret)
 	{

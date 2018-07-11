@@ -28,7 +28,9 @@
 	"require-dev": {
 		"nette/security": "^2.4",
 		"nette/tester": "^1.7",
-		"kdyby/fake-session": "@dev"
+		"phpstan/phpstan": "^0.10.1",
+		"kdyby/fake-session": "@dev",
+		"phpstan/phpstan-nette": "^0.10.0"
 	},
 	"support": {
 		"email": "filip@prochazka.su",
@@ -51,5 +53,13 @@
 		"branch-alias": {
 			"dev-master": "2.0-dev"
 		}
+	},
+	"scripts": {
+		"tester": "vendor/bin/tester tests/",
+		"phpstan": "vendor/bin/phpstan analyse -c phpstan.neon src --level=5 --ansi",
+		"all": [
+			"@tester",
+			"@phpstan"
+		]
 	}
 }

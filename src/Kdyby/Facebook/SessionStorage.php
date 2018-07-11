@@ -18,10 +18,10 @@ use Tracy\Debugger;
 /**
  * @author Filip Procházka <filip@prochazka.su>
  *
- * @property string $state A CSRF state variable to assist in the defense against CSRF attacks.
+ * @property string|null $state A CSRF state variable to assist in the defense against CSRF attacks.
  * @property string $code
  * @property string $access_token
- * @property string $user_id
+ * @property string|int $user_id
  */
 class SessionStorage
 {
@@ -65,7 +65,7 @@ class SessionStorage
 	public function establishCSRFTokenState()
 	{
 		if (!$this->state) {
-			$this->state = md5(uniqid(mt_rand(), TRUE));
+			$this->state = md5(uniqid((string) mt_rand(), TRUE));
 		}
 	}
 

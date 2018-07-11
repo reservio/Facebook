@@ -37,7 +37,7 @@ abstract class ResourceTestCase extends KdybyTests\Facebook\FacebookTestCase
 
 
 	/**
-	 * @return \SystemContainer|\Nette\DI\Container
+	 * @return \Nette\DI\Container
 	 */
 	protected function setUp()
 	{

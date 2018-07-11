@@ -19,7 +19,7 @@ interface IResourceLoader
 	/**
 	 * Returns collections of data from data source at one page.
 	 *
-	 * @return array|\Traversable
+	 * @return \Traversable
 	 */
 	public function getNextPage();
 

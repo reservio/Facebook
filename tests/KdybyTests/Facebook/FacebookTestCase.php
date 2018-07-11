@@ -79,8 +79,8 @@ abstract class FacebookTestCase extends Tester\TestCase
 				NULL, NULL, NULL, NULL, NULL, 'GET')
 		);
 
+		/** @var Nette\Http\Session $session */
 		$session = $dic->getByType('Nette\Http\Session');
-		/** @var \Nette\Http\Session $session */
 		$session->isStarted() && $session->destroy();
 
 		$router = $dic->getService('router');
@@ -191,7 +191,9 @@ abstract class FacebookTestCase extends Tester\TestCase
 		/** @var \KdybyTests\Facebook\PresenterMock $presenter */
 		$this->container->callInjects($presenter);
 
-		$query = $this->container->getService('httpRequest')->getQuery();
+		/** @var Nette\Http\Request $httpRequest */
+		$httpRequest = $this->container->getService('httpRequest');
+		$query = $httpRequest->getQuery();
 		$presenter->run(new Nette\Application\Request('Mock', 'GET', ['action' => 'default'] + $query));
 
 		$presenter->addComponent($component, $name);

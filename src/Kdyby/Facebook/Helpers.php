@@ -32,7 +32,7 @@ class Helpers
 	 */
 	public static function isVideoPost($path, $method = NULL)
 	{
-		if ($method == 'POST' && preg_match('~^(\\/)(.+)(\\/)(videos)$~', $path)) {
+		if ($method === 'POST' && preg_match('~^(\\/)(.+)(\\/)(videos)$~', $path)) {
 			return TRUE;
 		}
 		return FALSE;
@@ -52,7 +52,7 @@ class Helpers
 	 */
 	public static function base64UrlDecode($input)
 	{
-		return base64_decode(strtr($input, '-_', '+/'));
+		return (string) base64_decode(strtr($input, '-_', '+/'));
 	}
 
 

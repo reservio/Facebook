@@ -47,7 +47,7 @@ class ResourceLoader implements IteratorAggregate, IResourceLoader
 	private $params = [];
 
 	/**
-	 * @var ArrayHash|NULL
+	 * @var ArrayHash|NULL|bool
 	 */
 	private $lastResult = NULL;
 
@@ -160,7 +160,7 @@ class ResourceLoader implements IteratorAggregate, IResourceLoader
 	 */
 	private function hasNextPage()
 	{
-		return !empty($this->lastResult->paging->next);
+		return $this->lastResult && !empty($this->lastResult->paging->next);
 	}
 
 

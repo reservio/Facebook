@@ -66,21 +66,21 @@ class Facebook
 
 	/**
 	 * The ID of the Facebook user, or 0 if the user is logged out.
-	 * @var integer
+	 * @var integer|null
 	 */
 	protected $user;
 
 	/**
 	 * The OAuth access token received in exchange for a valid authorization code.
 	 * null means the access token has yet to be determined.
-	 * @var string
+	 * @var string|null|false
 	 */
 	protected $accessToken;
 
 	/**
 	 * The data from the signed_request token.
 	 *
-	 * @var string
+	 * @var array|null
 	 */
 	protected $signedRequest;
 
@@ -296,7 +296,7 @@ class Facebook
 	 * access token if a valid user access token wasn't available.  Subsequent
 	 * calls return whatever the first call returned.
 	 *
-	 * @return string The access token
+	 * @return string|null The access token
 	 */
 	public function getAccessToken()
 	{
@@ -324,7 +324,7 @@ class Facebook
 	 * return a valid user access token, or false if one is determined
 	 * to not be available.
 	 *
-	 * @return string A valid user access token, or false if one could not be determined.
+	 * @return string|false A valid user access token, or false if one could not be determined.
 	 */
 	protected function getUserAccessToken()
 	{
@@ -378,7 +378,7 @@ class Facebook
 	 * Retrieve the signed request, either from a request parameter or,
 	 * if not present, from a cookie.
 	 *
-	 * @return string the signed request, if available, or null otherwise.
+	 * @return array|null the signed request, if available, or null otherwise.
 	 */
 	public function getSignedRequest()
 	{
@@ -494,7 +494,7 @@ class Facebook
 	 * either logged in to Facebook or has granted an offline access permission.
 	 *
 	 * @param string $code An authorization code.
-	 * @param null $redirectUri
+	 * @param string|null $redirectUri
 	 * @return mixed An access token exchanged for the authorization code, or false if an access token could not be generated.
 	 */
 	protected function getAccessTokenFromCode($code, $redirectUri = NULL)

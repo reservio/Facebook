@@ -97,7 +97,7 @@ class LoginDialog extends Facebook\Dialog\AbstractDialog
 			$params['scope'] = implode(',', (array) $this->scope);
 
 		} elseif ($scope = $this->facebook->config->permissions) {
-			$params['scope'] = implode(',', (array)$scope);
+			$params['scope'] = implode(',', $scope);
 		}
 
 		// authType

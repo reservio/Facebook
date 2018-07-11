@@ -78,7 +78,7 @@ class CurlClient implements Facebook\ApiClient
 	private $fb;
 
 	/**
-	 * @var array
+	 * @var array|false
 	 */
 	private $cache = [];
 
@@ -144,7 +144,7 @@ class CurlClient implements Facebook\ApiClient
 	 * Invoke the Graph API.
 	 *
 	 * @param string $path The path (required)
-	 * @param string $method The http method (default 'GET')
+	 * @param string|array|null $method The http method (default 'GET')
 	 * @param array $params The query/post data
 	 * @throws Facebook\FacebookApiException
 	 * @return mixed The decoded response object
@@ -156,7 +156,8 @@ class CurlClient implements Facebook\ApiClient
 			$method = NULL;
 		}
 
-		if (($i = strpos($path, '?')) !== FALSE) {
+		$i = strpos($path, '?');
+		if ($i !== FALSE) {
 			parse_str(substr($path, $i + 1), $tmp);
 			$params += $tmp;
 			$path = substr($path, 0, $i);
@@ -172,14 +173,15 @@ class CurlClient implements Facebook\ApiClient
 
 	/**
 	 * @param \Nette\Http\UrlScript $url
-	 * @param $params
+	 * @param array $params
 	 * @throws Facebook\FacebookApiException
 	 * @return array|mixed
 	 */
 	protected function callOauth(UrlScript $url, $params)
 	{
 		try {
-			$result = Json::decode($response = $this->oauth($url, $params), Json::FORCE_ARRAY);
+			$response = $this->oauth($url, $params);
+			$result = Json::decode($response, Json::FORCE_ARRAY);
 
 		} catch (Nette\Utils\JsonException $e) {
 			throw $this->resolveAPIException([
@@ -364,7 +366,7 @@ class CurlClient implements Facebook\ApiClient
 	 * because the access token is no longer valid.  If that is
 	 * the case, then we destroy the session.
 	 *
-	 * @param $result array A record storing the error message returned by a failed API call.
+	 * @param array $result A record storing the error message returned by a failed API call.
 	 * @throws Facebook\FacebookApiException
 	 */
 	protected function resolveAPIException($result)
