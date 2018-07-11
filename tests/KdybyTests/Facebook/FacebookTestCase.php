@@ -61,7 +61,7 @@ abstract class FacebookTestCase extends Tester\TestCase
 
 	/**
 	 * @param string $fbConfig
-	 * @return \SystemContainer|\Nette\DI\Container
+	 * @return \Nette\DI\Container
 	 */
 	protected function createContainer($fbConfig = 'config.neon')
 	{
@@ -71,7 +71,6 @@ abstract class FacebookTestCase extends Tester\TestCase
 		$config->addConfig(__DIR__ . '/files/' . $fbConfig);
 		$config->addConfig(__DIR__ . '/../nette-reset.' . (!isset($config->defaultExtensions['nette']) ? 'v23' : 'v22') . '.neon');
 
-		/** @var \Nette\DI\Container|\SystemContainer $dic */
 		$dic = $config->createContainer();
 
 		$dic->removeService('httpRequest');

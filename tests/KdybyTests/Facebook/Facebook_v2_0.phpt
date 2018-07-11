@@ -188,8 +188,8 @@ class Facebook_v2_0Test extends FacebookTestCase
 	{
 		$facebook = $this->createWithRequest();
 
-		$response = $facebook->api('/4');
-		Assert::same('Mark Zuckerberg', $response['name']);
+		$response = $facebook->api('/1634280910');
+		Assert::same('Filip Procházka', $response['name']);
 	}
 
 

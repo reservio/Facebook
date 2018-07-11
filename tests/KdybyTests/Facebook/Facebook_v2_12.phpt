@@ -28,13 +28,13 @@ require_once __DIR__ . '/../bootstrap.php';
 /**
  * @author Filip Procházka <filip@prochazka.su>
  */
-class Facebook_v2_2Test extends FacebookTestCase
+class Facebook_v2_12Test extends FacebookTestCase
 {
 
 	protected function setUp()
 	{
 		$this->createContainer('config.kdyby.neon');
-		$this->config->graphVersion = 'v2.2';
+		$this->config->graphVersion = 'v2.12';
 		$this->prepareTestUsers();
 	}
 
@@ -49,7 +49,7 @@ class Facebook_v2_2Test extends FacebookTestCase
 
 		Assert::same('https', $loginUrl->scheme);
 		Assert::same('www.facebook.com', $loginUrl->host);
-		Assert::same('/v2.2/dialog/oauth', $loginUrl->path);
+		Assert::same('/v2.12/dialog/oauth', $loginUrl->path);
 
 		parse_str($loginUrl->query, $query);
 		Assert::same($facebook->config->appId, $query['client_id']);
@@ -275,7 +275,7 @@ class Facebook_v2_2Test extends FacebookTestCase
 	{
 		$facebook = $this->createWithRequest();
 
-		$response = $facebook->api('/' . $this->testUser->id . '?fields=id,name,first_name,last_name');
+		$response = $facebook->api('/' . $this->testUser->id . '?fields=first_name,name,last_name');
 		Assert::true(isset($response['id'])); // User ID should be public.
 		Assert::true(isset($response['name'])); // User's name should be public.
 		Assert::true(isset($response['first_name'])); // User's first name should be public.
@@ -375,4 +375,4 @@ class Facebook_v2_2Test extends FacebookTestCase
 
 }
 
-KdybyTests\run(new Facebook_v2_2Test());
+KdybyTests\run(new Facebook_v2_12Test());
