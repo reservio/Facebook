@@ -17,10 +17,10 @@
 		}
 	],
 	"require": {
-		"nette/application": "^2.3",
-		"nette/di": "^2.3",
-		"nette/http": "^2.3",
-		"tracy/tracy": "^2.3",
+		"nette/application": "^3.1",
+		"nette/di": "^3.0",
+		"nette/http": "^3.0",
+		"tracy/tracy": "^2.8",
 		"composer/ca-bundle": "~1.0",
 		"ext-curl": "*",
 		"ext-json": "*"
