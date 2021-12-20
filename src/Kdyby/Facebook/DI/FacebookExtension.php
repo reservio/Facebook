@@ -21,39 +21,29 @@ use Nette\Utils\Validators;
  */
 class FacebookExtension extends Nette\DI\CompilerExtension
 {
-
-	/**
-	 * @var array
-	 */
-	public $defaults = [
-		'appId' => NULL,
-		'appSecret' => NULL,
-		'verifyApiCalls' => TRUE,
-		'fileUploadSupport' => FALSE,
-		'trustForwarded' => FALSE,
-		'clearAllWithLogout' => TRUE,
-		'domains' => [],
-		'permissions' => [],
-		'canvasBaseUrl' => NULL,
-		'graphVersion' => '',
-		'curlOptions' => [],
-		'debugger' => '%debugMode%',
-	];
-
-
-
-	public function __construct()
+	public function getConfigSchema(): Nette\Schema\Schema
 	{
-		$this->defaults['curlOptions'] = CurlClient::$defaultCurlOptions;
+		return Nette\Schema\Expect::structure([
+			'appId' => Nette\Schema\Expect::string(),
+			'appSecret' => Nette\Schema\Expect::string(),
+			'verifyApiCalls' => Nette\Schema\Expect::bool()->default(TRUE),
+			'fileUploadSupport' => Nette\Schema\Expect::bool()->default(FALSE),
+			'trustForwarded' => Nette\Schema\Expect::bool()->default(FALSE),
+			'clearAllWithLogout' => Nette\Schema\Expect::bool()->default(TRUE),
+			'domains' => Nette\Schema\Expect::array()->default([]),
+			'permissions' => Nette\Schema\Expect::array()->default([]),
+			'canvasBaseUrl' => Nette\Schema\Expect::string(NULL)->nullable(),
+			'graphVersion' => Nette\Schema\Expect::string()->default(''),
+			'curlOptions' => Nette\Schema\Expect::array()->default(CurlClient::$defaultCurlOptions),
+			'debugger' => Nette\Schema\Expect::string()->default('%debugMode%'),
+		]);
 	}
-
-
 
 	public function loadConfiguration()
 	{
 		$builder = $this->getContainerBuilder();
 
-		$config = $this->getConfig($this->defaults);
+		$config = (array) $this->getConfig();
 		Validators::assert($config['appId'], 'string', 'Application ID');
 		Validators::assert($config['appSecret'], 'string:32', 'Application secret');
 		Validators::assert($config['fileUploadSupport'], 'bool', 'file upload support');
@@ -72,7 +62,7 @@ class FacebookExtension extends Nette\DI\CompilerExtension
 			->addSetup('$permissions', [$config['permissions']])
 			->addSetup('$canvasBaseUrl', [$config['canvasBaseUrl']])
 			->addSetup('$graphVersion', [$config['graphVersion']])
-			->setInject(FALSE);
+			->addTag(Nette\DI\Extensions\InjectExtension::TAG_INJECT, FALSE);
 
 		if ($config['domains']) {
 			$configurator->addSetup('$service->domains = ? + $service->domains', [$config['domains']]);
@@ -80,7 +70,7 @@ class FacebookExtension extends Nette\DI\CompilerExtension
 
 		$builder->addDefinition($this->prefix('session'))
 			->setClass('Kdyby\Facebook\SessionStorage')
-			->setInject(FALSE);
+			->addTag(Nette\DI\Extensions\InjectExtension::TAG_INJECT, FALSE);
 
 		foreach ($config['curlOptions'] as $option => $value) {
 			if (defined($option)) {
@@ -93,19 +83,19 @@ class FacebookExtension extends Nette\DI\CompilerExtension
 			->setFactory('Kdyby\Facebook\Api\CurlClient')
 			->setClass('Kdyby\Facebook\ApiClient')
 			->addSetup('$service->curlOptions = ?;', [$config['curlOptions']])
-			->setInject(FALSE);
+			->addTag(Nette\DI\Extensions\InjectExtension::TAG_INJECT, FALSE);
 
 		if ($config['debugger']) {
 			$builder->addDefinition($this->prefix('panel'))
 				->setClass('Kdyby\Facebook\Diagnostics\Panel')
-				->setInject(FALSE);
+				->addTag(Nette\DI\Extensions\InjectExtension::TAG_INJECT);
 
 			$apiClient->addSetup($this->prefix('@panel') . '::register', ['@self']);
 		}
 
 		$builder->addDefinition($this->prefix('client'))
 			->setClass('Kdyby\Facebook\Facebook')
-			->setInject(FALSE);
+			->addTag(Nette\DI\Extensions\InjectExtension::TAG_INJECT, FALSE);
 
 		if ($config['clearAllWithLogout']) {
 			$builder->getDefinition('user')
