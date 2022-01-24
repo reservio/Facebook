@@ -390,13 +390,15 @@ class Configuration
 			$url = new UrlScript($path);
 
 		} else {
-			$url = new UrlScript($this->domains[$name]);
+			$path = $this->domains[$name];
 
 			if ($this->graphVersion) {
-				$url->path .= $this->graphVersion . '/';
+                $path .= $this->graphVersion . '/';
 			}
 
-			$url->path .= ltrim($path, '/');
+            $path .= ltrim($path, '/');
+
+            $url = new UrlScript($path);
 		}
 
 		$url->appendQuery(array_map(function ($param) {
