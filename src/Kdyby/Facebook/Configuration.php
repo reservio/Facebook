@@ -11,7 +11,7 @@
 namespace Kdyby\Facebook;
 
 use Nette;
-use Nette\Http\UrlScript;
+use Nette\Http\Url;
 
 
 
@@ -382,31 +382,29 @@ class Configuration
 	 * @param string $path Optional path (without a leading slash)
 	 * @param array $params Optional query parameters
 	 *
-	 * @return UrlScript The URL for the given parameters
+	 * @return Url The URL for the given parameters
 	 */
-	public function createUrl($name, $path = NULL, $params = [])
-	{
-		if (preg_match('~^https?://[^.]+\\.facebook\\.com/~', trim($path))) {
-			$url = new UrlScript($path);
-
-		} else {
-			$path = $this->domains[$name];
-
-			if ($this->graphVersion) {
-                $path .= $this->graphVersion . '/';
-			}
-
-            $path .= ltrim($path, '/');
-
+    public function createUrl($name, $path = NULL, $params = [])
+    {
+        if (preg_match('~^https?://[^.]+\\.facebook\\.com/~', trim($path))) {
             $url = new UrlScript($path);
-		}
 
-		$url->appendQuery(array_map(function ($param) {
-			return $param instanceof UrlScript ? (string)$param : $param;
-		}, $params));
+        } else {
+            $url = new UrlScript($this->domains[$name]);
 
-		return $url;
-	}
+            if ($this->graphVersion) {
+                $url->path .= $this->graphVersion . '/';
+            }
+
+            $url->path .= ltrim($path, '/');
+        }
+
+        $url->appendQuery(array_map(function ($param) {
+            return $param instanceof UrlScript ? (string)$param : $param;
+        }, $params));
+
+        return $url;
+    }
 
 
 
