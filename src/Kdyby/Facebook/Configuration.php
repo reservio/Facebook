@@ -387,10 +387,10 @@ class Configuration
     public function createUrl($name, $path = NULL, $params = [])
     {
         if (preg_match('~^https?://[^.]+\\.facebook\\.com/~', trim($path))) {
-            $url = new UrlScript($path);
+            $url = new Url($path);
 
         } else {
-            $url = new UrlScript($this->domains[$name]);
+            $url = new Url($this->domains[$name]);
 
             if ($this->graphVersion) {
                 $url->path .= $this->graphVersion . '/';
@@ -400,7 +400,7 @@ class Configuration
         }
 
         $url->appendQuery(array_map(function ($param) {
-            return $param instanceof UrlScript ? (string)$param : $param;
+            return $param instanceof Url ? (string)$param : $param;
         }, $params));
 
         return $url;
@@ -412,7 +412,7 @@ class Configuration
 	 * Build the URL for api given parameters.
 	 *
 	 * @param string $method the method name.
-	 * @return UrlScript The URL for the given parameters
+	 * @return Url The URL for the given parameters
 	 */
 	public function getApiUrl($method)
 	{
