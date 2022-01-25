@@ -13,8 +13,8 @@ namespace Kdyby\Facebook\Api;
 use Composer\CaBundle\CaBundle;
 use Kdyby\Facebook;
 use Nette;
+use Nette\Http\Url;
 use Tracy\Debugger;
-use Nette\Http\UrlScript;
 use Nette\Utils\Json;
 use Nette\Utils\Strings;
 
@@ -172,12 +172,12 @@ class CurlClient implements Facebook\ApiClient
 
 
 	/**
-	 * @param \Nette\Http\UrlScript $url
+	 * @param \Nette\Http\Url $url
 	 * @param array $params
 	 * @throws Facebook\FacebookApiException
 	 * @return array|mixed
 	 */
-	protected function callOauth(UrlScript $url, $params)
+	protected function callOauth(Url $url, $params)
 	{
 		try {
 			$response = $this->oauth($url, $params);
@@ -224,7 +224,7 @@ class CurlClient implements Facebook\ApiClient
 
 		// json_encode all params values that are not strings
 		$params = array_map(function ($value) {
-			if ($value instanceof UrlScript) {
+			if ($value instanceof Url) {
 				return (string)$value;
 
 			} elseif ($value instanceof \CURLFile) {
@@ -260,7 +260,7 @@ class CurlClient implements Facebook\ApiClient
 			return $this->cache[$cacheKey];
 		}
 
-		$url = new UrlScript($url);
+		$url = new Url($url);
 		$method = strtoupper(isset($params['method']) ? $params['method'] : 'GET');
 
 		$this->onRequest((string)$url, $params);
@@ -328,7 +328,7 @@ class CurlClient implements Facebook\ApiClient
 
 		$info = curl_getinfo($ch);
 		if (isset($info['request_header'])) {
-			list($info['request_header']) = self::parseHeaders($info['request_header']);
+			[$info['request_header']] = self::parseHeaders($info['request_header']);
 		}
 		$info['method'] = $method;
 
@@ -411,7 +411,7 @@ class CurlClient implements Facebook\ApiClient
 			//avoid an empty row for the extra line break before the body of the response.
 			foreach (Strings::split(trim($block), '~[\r\n]+~') as $i => $line) {
 				if (preg_match('~^([a-z-]+\\:)(.*)$~is', $line)) {
-					list($key, $val) = explode(': ', $line, 2);
+					[$key, $val] = explode(': ', $line, 2);
 					$headers[$index][$key] = $val;
 
 				} elseif (!empty($line)) {

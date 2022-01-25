@@ -13,7 +13,7 @@ namespace Kdyby\Facebook\Dialog;
 use Kdyby\Facebook;
 use Nette;
 use Nette\Application\UI\PresenterComponent;
-use Nette\Http\UrlScript;
+use Nette\Http\Url;
 use Nette\Utils\Html;
 
 
@@ -54,7 +54,7 @@ abstract class AbstractDialog extends PresenterComponent implements Facebook\Dia
 	protected $showError;
 
 	/**
-	 * @var UrlScript
+	 * @var Url
 	 */
 	protected $currentUrl;
 
@@ -92,7 +92,7 @@ abstract class AbstractDialog extends PresenterComponent implements Facebook\Dia
 		parent::attached($obj);
 
 		if ($obj instanceof Nette\Application\UI\Presenter) {
-			$this->currentUrl = new UrlScript($this->link('//response!'));
+			$this->currentUrl = new Url($this->link('//response!'));
 		}
 	}
 

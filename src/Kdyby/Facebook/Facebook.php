@@ -565,7 +565,7 @@ class Facebook
 	 * not persist.
 	 *
 	 * @internal
-	 * @return \Nette\Http\UrlScript The current URL
+	 * @return \Nette\Http\Url The current URL
 	 */
 	public function getCurrentUrl()
 	{
