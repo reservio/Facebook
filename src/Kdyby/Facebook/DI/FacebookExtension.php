@@ -70,6 +70,7 @@ class FacebookExtension extends Nette\DI\CompilerExtension
 
 		$builder->addDefinition($this->prefix('session'))
 			->setClass('Kdyby\Facebook\SessionStorage')
+            ->setArgument('config', $this->prefix('@config'))
 			->addTag(Nette\DI\Extensions\InjectExtension::TAG_INJECT, FALSE);
 
 		foreach ($config['curlOptions'] as $option => $value) {
@@ -95,7 +96,10 @@ class FacebookExtension extends Nette\DI\CompilerExtension
 
 		$builder->addDefinition($this->prefix('client'))
 			->setClass('Kdyby\Facebook\Facebook')
-			->addTag(Nette\DI\Extensions\InjectExtension::TAG_INJECT, FALSE);
+            ->setArgument('config', $this->prefix('@config'))
+            ->setArgument('session', $this->prefix('@session'))
+            ->setArgument('client', $this->prefix('@apiClient'))
+            ->addTag(Nette\DI\Extensions\InjectExtension::TAG_INJECT, FALSE);
 
 		if ($config['clearAllWithLogout']) {
 			$builder->getDefinition('user')
